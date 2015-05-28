@@ -23,8 +23,6 @@ typedef enum {
 	SHIFT_RIGHT, // >
 	INPUT, // ,
 	OUTPUT,
-	STARTLOOP,
-	ENDLOOP // .
 } Command;
 
 // Forward references. Silly C++!
@@ -105,15 +103,6 @@ public:
 };
 
 void parse(fstream & file, Container * container);
-
-void parseLoop(fstream & file, Container * container){
-	char c;			
-	Loop loop;
-	parse(file,&loop);
-	container->children.push_back(&loop);
-
-		
-	}
 
 /**
 * Read in the file by recursive descent.
