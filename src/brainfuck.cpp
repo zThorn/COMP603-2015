@@ -178,6 +178,7 @@ class Interpreter : public Visitor {
                 	currentPosition++;
                     break;
                 case INPUT:
+                	stack[currentPosition] = getchar();
                     break;
                 case OUTPUT:
                 	cout<<stack[currentPosition];
