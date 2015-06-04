@@ -161,7 +161,7 @@ public:
 
 class Interpreter : public Visitor {
     int currentPosition = 0;
-	char[50000] stack;
+	char stack[50000];
     public:
         void visit(const CommandNode * leaf) {
             switch (leaf->command) {
@@ -180,23 +180,25 @@ class Interpreter : public Visitor {
                 case INPUT:
                     break;
                 case OUTPUT:
-                	cout<<(stack[currentPosition];
+                	cout<<stack[currentPosition];
                     break;
             }
+        }
 
-             void visit(const Loop * loop) {
+            void visit(const Loop * loop) {
 		        while (stack[currentPosition] != 0) {
 		            for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
 		                (*it)->accept(this);
-		            }
-		        }
-    }
-        }
-        void visit(const Loop * loop) {
+		            	}
+		        	}
+    			}
+
+    
+        /*void visit(const Loop * loop) {
             for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
                 (*it)->accept(this);
             }
-        }
+        }*/
         void visit(const Program * program) {
             for (vector<Node*>::const_iterator it = program->children.begin(); it != program->children.end(); ++it) {
                 (*it)->accept(this);
