@@ -37,8 +37,6 @@ class Program;
 */
 class Visitor {
 public:
-	int instructionPointer = 0;
-
 	virtual void visit(const CommandNode * leaf) = 0;
 	virtual void visit(const Loop * loop) = 0;
 	virtual void visit(const Program * program) = 0;
@@ -67,7 +65,7 @@ public:
 		case '>': command = SHIFT_RIGHT; break;
 		case ',': command = INPUT; break;
 		case '.': command = OUTPUT; break;
-
+		
 		}
 	}
 	void accept(Visitor * v) {
@@ -104,6 +102,8 @@ public:
 	}
 };
 
+void parse(fstream & file, Container * container);
+
 /**
 * Read in the file by recursive descent.
 * Modify as necessary and add whatever functions you need to get things done.
@@ -118,12 +118,17 @@ void parse(fstream & file, Container * container) {
 			Loop *loop = new Loop();
 			container->children.push_back(loop);
 			parse(file, loop);
+
 		} else if((char)c == ']'){
+			//container->children.push_back(']');
 			return;
 		} else{
 			container->children.push_back(new CommandNode(c));
 		}
 	}
+	// How to read a character from the file and advance to the next character
+	// How to print out that character
+	// How to insert a node into the container.
 }
 
 
@@ -159,38 +164,40 @@ public:
 	}
 };
 
+<<<<<<< HEAD
+int main(int argc, char *argv []) {
+	fstream file;
+	Program program;
+	Printer printer;
+	if (argc == 1) {
+		cout << argv[0] << ": No input files." << endl;
+	}
+	else if (argc > 1) {
+		for (int i = 1; i < argc; i++) {
+			file.open(argv[i], fstream::in);
+			parse(file, &program);
+			program.accept(&printer);
+			file.close();
+		}
+	}
+=======
 class Interpreter : public Visitor {
-    int currentPosition = 0;
-	char[50000] stack;
     public:
         void visit(const CommandNode * leaf) {
             switch (leaf->command) {
                 case INCREMENT:
-                	stack[currentPosition] += 1;
                     break;
                 case DECREMENT:
-                	stack[currentPosition] -= 1;
                     break;
                 case SHIFT_LEFT:
-                	currentPosition--;
                     break;
                 case SHIFT_RIGHT:
-                	currentPosition++;
                     break;
                 case INPUT:
                     break;
                 case OUTPUT:
-                	cout<<(stack[currentPosition];
                     break;
             }
-
-             void visit(const Loop * loop) {
-		        while (stack[currentPosition] != 0) {
-		            for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
-		                (*it)->accept(this);
-		            }
-		        }
-    }
         }
         void visit(const Loop * loop) {
             for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
@@ -203,6 +210,7 @@ class Interpreter : public Visitor {
             }
         }
 };
+
 int main(int argc, char *argv[]) {
     fstream file;
     Program program;
@@ -219,4 +227,5 @@ int main(int argc, char *argv[]) {
             file.close();
         }
     }
+>>>>>>> upstream/lab3
 }
